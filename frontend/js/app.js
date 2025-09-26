@@ -7,12 +7,15 @@ const homeBtn = document.getElementById('homeBtn');
 // Recursos a mostrar
 const resources = [
 	{ id: 'recetas', name: 'Recetas', desc: 'Recetas populares y fáciles', icon: '🍲' },
-	{ id: 'personajes', name: 'Pokémon', desc: 'Pokémon populares', icon: '⭐' }
+	{ id: 'personajes', name: 'Pokémon', desc: 'Pokémon populares', icon: '⭐' },
+	{ id: 'peliculas', name: 'Películas', desc: 'Busca películas y series', icon: '🎬' }
 ];
 
 // Importar módulos de APIs
+
 import { getPokemons, getPokemonDetail } from '../api/pokeapi.js';
 import { getMealsByCategory, getMealDetail } from '../api/themealdb.js';
+import { fetchMovieByTitle, searchMovies } from '../api/omdbapi.js';
 
 function renderLanding() {
 	mainView.innerHTML = `
@@ -70,31 +73,78 @@ async function renderResource(id) {
 		try {
 			const data = await getMealsByCategory('Seafood');
 			const mealList = document.getElementById('meal-list');
-					mealList.innerHTML = data.meals.map(m => `
-						<div class="bg-white rounded-xl shadow-lg p-4 flex flex-col items-center cursor-pointer hover:bg-blue-100 hover:scale-105 transition-all duration-200 border border-blue-100" data-id="${m.idMeal}">
-							<img src="${m.strMealThumb}" alt="${m.strMeal}" class="w-24 h-24 rounded mb-3 drop-shadow">
-							<span class="font-semibold mb-2 text-center text-blue-700 text-lg">${m.strMeal}</span>
-							<span class="text-xs text-gray-400">Ver detalle</span>
-						</div>
-					`).join('');
+			mealList.innerHTML = data.meals.map(m => `
+				<div class="bg-white rounded-xl shadow-lg p-4 flex flex-col items-center cursor-pointer hover:bg-blue-100 hover:scale-105 transition-all duration-200 border border-blue-100" data-id="${m.idMeal}">
+					<img src="${m.strMealThumb}" alt="${m.strMeal}" class="w-24 h-24 rounded mb-3 drop-shadow">
+					<span class="font-semibold mb-2 text-center text-blue-700 text-lg">${m.strMeal}</span>
+					<span class="text-xs text-gray-400">Ver detalle</span>
+				</div>
+			`).join('');
 			// Evento para ver detalle
 			mealList.querySelectorAll('div[data-id]').forEach(div => {
 				div.onclick = async () => {
 					const detail = await getMealDetail(div.dataset.id);
 					const meal = detail.meals[0];
-								mainView.innerHTML = `<button onclick=\"window.renderResource('recetas')\" class=\"mb-4 text-blue-600 hover:underline\">← Volver</button>` +
-									`<div class=\"flex flex-col items-center bg-white rounded-2xl shadow-lg p-6 border border-blue-100\">
-										<img src=\"${meal.strMealThumb}\" alt=\"${meal.strMeal}\" class=\"w-32 h-32 rounded mb-3 drop-shadow\">
-										<h3 class=\"text-2xl font-bold text-center text-blue-800 mb-2\">${meal.strMeal}</h3>
-										<div class=\"text-gray-600 mb-2\">${meal.strCategory} | ${meal.strArea}</div>
-										<div class=\"text-gray-700 text-sm mb-2\">${meal.strInstructions.slice(0, 200)}...</div>
-										<a href=\"${meal.strSource || '#'}\" target=\"_blank\" class=\"text-blue-500 underline\">Ver receta completa</a>
-									</div>`;
+					mainView.innerHTML = `<button onclick=\"window.renderResource('recetas')\" class=\"mb-4 text-blue-600 hover:underline\">← Volver</button>` +
+						`<div class=\"flex flex-col items-center bg-white rounded-2xl shadow-lg p-6 border border-blue-100\">
+							<img src=\"${meal.strMealThumb}\" alt=\"${meal.strMeal}\" class=\"w-32 h-32 rounded mb-3 drop-shadow\">
+							<h3 class=\"text-2xl font-bold text-center text-blue-800 mb-2\">${meal.strMeal}</h3>
+							<div class=\"text-gray-600 mb-2\">${meal.strCategory} | ${meal.strArea}</div>
+							<div class=\"text-gray-700 text-sm mb-2\">${meal.strInstructions.slice(0, 200)}...</div>
+							<a href=\"${meal.strSource || '#'}\" target=\"_blank\" class=\"text-blue-500 underline\">Ver receta completa</a>
+						</div>`;
 				};
 			});
 		} catch (e) {
 			mainView.innerHTML += `<div class='text-red-600'>Error al cargar recetas</div>`;
 		}
+	} else if (id === 'peliculas') {
+		// Mostrar películas
+		mainView.innerHTML += `
+			<h2 class="text-2xl font-bold mb-6 text-blue-700 text-center">Buscar películas</h2>
+			<form id="movie-search-form" class="flex flex-col sm:flex-row gap-3 items-center justify-center mb-6">
+				<input id="movie-search-input" type="text" placeholder="Título de la película o serie" class="border border-blue-300 rounded px-3 py-2 w-64 focus:outline-none focus:ring-2 focus:ring-blue-200" required>
+				<button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Buscar</button>
+			</form>
+			<div id="movie-results" class="grid grid-cols-1 sm:grid-cols-2 gap-6"></div>
+		`;
+		const form = document.getElementById('movie-search-form');
+		const input = document.getElementById('movie-search-input');
+		const resultsDiv = document.getElementById('movie-results');
+		form.onsubmit = async (e) => {
+			e.preventDefault();
+			resultsDiv.innerHTML = '<div class="text-gray-400">Buscando...</div>';
+			const data = await searchMovies(input.value);
+			if (data.Response === 'True' && data.Search) {
+				const fallbackImg = './assets/img/movies-1.jpg'; // Usa la imagen 2 proporcionada
+				resultsDiv.innerHTML = data.Search.map(m => `
+					<div class="bg-white rounded-xl shadow-lg p-4 flex flex-col items-center cursor-pointer hover:bg-blue-100 hover:scale-105 transition-all duration-200 border border-blue-100" data-imdbid="${m.imdbID}">
+						<img src="${m.Poster !== 'N/A' ? m.Poster : fallbackImg}" alt="${m.Title}" class="w-24 h-36 object-cover rounded mb-3 drop-shadow" onerror="this.onerror=null;this.src='${fallbackImg}';">
+						<span class="font-semibold mb-2 text-center text-blue-700 text-lg">${m.Title}</span>
+						<span class="text-xs text-gray-400">${m.Year}</span>
+					</div>
+				`).join('');
+				// Evento para ver detalle
+				resultsDiv.querySelectorAll('div[data-imdbid]').forEach(div => {
+					div.onclick = async () => {
+						const detail = await fetchMovieByTitle(div.querySelector('span').textContent);
+						const fallbackImg = './assets/img/movies-1.jpg';
+						mainView.innerHTML = `<button onclick=\"window.renderResource('peliculas')\" class=\"mb-4 text-blue-600 hover:underline\">← Volver</button>` +
+							`<div class=\"flex flex-col items-center bg-white rounded-2xl shadow-lg p-6 border border-blue-100\">
+								<img src=\"${detail.Poster !== 'N/A' ? detail.Poster : fallbackImg}\" alt=\"${detail.Title}\" class=\"w-36 h-52 object-cover rounded mb-3 drop-shadow\" onerror=\"this.onerror=null;this.src='${fallbackImg}';\">
+								<h3 class=\"text-2xl font-bold text-center text-blue-800 mb-2\">${detail.Title}</h3>
+								<div class=\"text-gray-600 mb-1\">Año: <span class=\"font-semibold\">${detail.Year}</span></div>
+								<div class=\"text-gray-600 mb-1\">Género: <span class=\"font-semibold\">${detail.Genre}</span></div>
+								<div class=\"text-gray-600 mb-1\">Director: <span class=\"font-semibold\">${detail.Director}</span></div>
+								<div class=\"text-gray-700 text-sm mb-2\">${detail.Plot}</div>
+								<a href=\"https://www.imdb.com/title/${detail.imdbID}/\" target=\"_blank\" class=\"text-blue-500 underline\">Ver en IMDb</a>
+							</div>`;
+					};
+				});
+			} else {
+				resultsDiv.innerHTML = `<div class='text-red-600'>No se encontraron resultados.</div>`;
+			}
+		};
 	}
 }
 
