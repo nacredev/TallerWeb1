@@ -3,10 +3,9 @@
 ## Información del Grupo
 - Número de grupo: [Tu número de grupo]
 - Integrantes:
-  1. [Nombre completo] - RUT: [Tu RUT]
+  1. [Brayan Pizarro Bugueño] - RUT: [19.873.488-8]
   2. [Nombre completo] - RUT: [Tu RUT]
   3. [Nombre completo] - RUT: [Tu RUT]
-  4. [Nombre completo] - RUT: [Tu RUT]
 
 ## Descripción del Proyecto
 InfoMóvil es una aplicación web que centraliza información dinámica de diferentes fuentes, presentándola de manera clara y atractiva. La aplicación es totalmente responsiva y funciona perfectamente en dispositivos móviles, tablets y escritorio.
