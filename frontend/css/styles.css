@@ -808,16 +808,53 @@ video {
     --tw-ring-color: rgb(191 219 254/var(--tw-ring-opacity, 1))
 }
 
-@media (min-width:640px) {
-    .sm\:grid-cols-2 {
-        grid-template-columns: repeat(2, minmax(0, 1fr))
-    }
+/* Fondos personalizados para cada página SPA */
+.bg-landing {
+    background: url('../assets/backgrounds/principal.jpg') center/cover no-repeat fixed;
+}
+.bg-recetas {
+    background: url('../assets/backgrounds/recetas.jpg') center/cover no-repeat fixed;
+}
+.bg-personajes {
+    background: url('../assets/backgrounds/pokemon.jpg') center/cover no-repeat fixed;
+}
+.bg-peliculas {
+    background: url('../assets/backgrounds/peliculas.jpg') center/cover no-repeat fixed;
+}
+.bg-noticias {
+    background: url('../assets/backgrounds/noticiasjpg.jpg') center/cover no-repeat fixed;
+}
+/* Puedes cambiar los nombres de los archivos por los que subas a la carpeta backgrounds */
 
-    .sm\:grid-cols-3 {
-        grid-template-columns: repeat(3, minmax(0, 1fr))
-    }
+/* Menú activo: resalta el menú según la sección */
+.menu-btn {
+    transition: background 0.2s, color 0.2s, border 0.2s;
+    border: 2px solid transparent;
+    color: #2563eb;
+    background: #fff;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+.menu-btn.active {
+    border-color: #2563eb;
+    background: #2563eb;
+    color: #fff;
+}
 
-    .sm\:flex-row {
-        flex-direction: row
-    }
+/* Botón de volver mejorado */
+.btn-back {
+    border: 2px solid #2563eb;
+    background: #2563eb;
+    color: #fff;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.btn-back:hover {
+    background: #1e40af;
+    border-color: #1e40af;
 }
