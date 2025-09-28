@@ -4,7 +4,7 @@
 - Número de grupo: [Tu número de grupo]
 - Integrantes:
   1. [Brayan Pizarro Bugueño] - RUT: [19.873.488-8]
-  2. [Nombre completo] - RUT: [Tu RUT]
+  2. [Ignacio Cruz Reyes] - RUT: [21.127.029-2]
   3. [Nombre completo] - RUT: [Tu RUT]
 
 ## Descripción del Proyecto
