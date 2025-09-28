@@ -5,7 +5,7 @@
 - Integrantes:
   1. [Brayan Pizarro Bugueño] - RUT: [19.873.488-8]
   2. [Ignacio Cruz Reyes] - RUT: [21.127.029-2]
-  3. [Nombre completo] - RUT: [Tu RUT]
+  3. [Cecilia Gonzalez Alcayaga] - RUT: [19.712.743-0]
 
 ## Descripción del Proyecto
 InfoMóvil es una aplicación web que centraliza información dinámica de diferentes fuentes, presentándola de manera clara y atractiva. La aplicación es totalmente responsiva y funciona perfectamente en dispositivos móviles, tablets y escritorio.
