@@ -8,7 +8,8 @@ const homeBtn = document.getElementById('homeBtn');
 const resources = [
 	{ id: 'recetas', name: 'Recetas', desc: 'Recetas populares y fáciles', icon: '🍲' },
 	{ id: 'personajes', name: 'Pokémon', desc: 'Pokémon populares', icon: '⭐' },
-	{ id: 'peliculas', name: 'Películas', desc: 'Busca películas y series', icon: '🎬' }
+	{ id: 'peliculas', name: 'Películas', desc: 'Busca películas y series', icon: '🎬' },
+	{ id: 'noticias', name: 'Noticias', desc: 'Últimas noticias de tecnología', icon: '📰' }
 ];
 
 // Importar módulos de APIs
@@ -16,6 +17,7 @@ const resources = [
 import { getPokemons, getPokemonDetail } from '../api/pokeapi.js';
 import { getMealsByCategory, getMealDetail } from '../api/themealdb.js';
 import { fetchMovieByTitle, searchMovies } from '../api/omdbapi.js';
+import { getTopNews, searchNews } from '../api/newsapi.js';
 
 function renderLanding() {
 	mainView.innerHTML = `
@@ -98,6 +100,37 @@ async function renderResource(id) {
 		} catch (e) {
 			mainView.innerHTML += `<div class='text-red-600'>Error al cargar recetas</div>`;
 		}
+	} else if (id === 'noticias') {
+		// Mostrar noticias
+		mainView.innerHTML += `<h2 class="text-2xl font-bold mb-6 text-blue-700 text-center">Noticias de Tecnología</h2>
+		<div id="news-list" class="grid grid-cols-1 gap-4"></div>`;
+		
+		const newsList = document.getElementById('news-list');
+		newsList.innerHTML = '<div class="text-center text-gray-400">Cargando noticias...</div>';
+		
+		try {
+			const data = await getTopNews();
+			if (data.articles && data.articles.length > 0) {
+				newsList.innerHTML = data.articles.map(article => `
+					<div class="bg-white rounded-xl shadow-lg p-4 hover:bg-blue-50 transition-all duration-200 border border-blue-100">
+						<a href="${article.url}" target="_blank" class="block">
+							<h3 class="text-lg font-bold text-blue-800 hover:text-blue-600 mb-2">${article.title}</h3>
+							<p class="text-gray-600 text-sm mb-2">${article.description}</p>
+							<div class="flex items-center gap-2 text-sm">
+								<span class="text-gray-500">${new Date(article.publishedAt).toLocaleDateString()}</span>
+								<span class="text-orange-500">▲</span>
+								<a href="${article.url}" target="_blank" class="text-blue-500 hover:underline">Leer más →</a>
+							</div>
+						</a>
+					</div>
+				`).join('');
+			} else {
+				newsList.innerHTML = '<div class="text-red-600 text-center">No se encontraron noticias</div>';
+			}
+		} catch (error) {
+			newsList.innerHTML = '<div class="text-red-600 text-center">Error al cargar las noticias</div>';
+		}
+		
 	} else if (id === 'peliculas') {
 		// Mostrar películas
 		mainView.innerHTML += `

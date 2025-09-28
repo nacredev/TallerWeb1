@@ -1,23 +1,69 @@
-# InfoMóvil Web App
+# InfoMóvil - Aplicación Web de Información Dinámica
 
-Aplicación web mobile-first, responsiva, desarrollada con HTML, JavaScript puro y Tailwind CSS. Permite explorar información dinámica de al menos 4 recursos provenientes de APIs públicas, con navegación dinámica y lógica de filtrado/ordenamiento en JS.
+## Información del Grupo
+- Número de grupo: [Tu número de grupo]
+- Integrantes:
+  1. [Nombre completo] - RUT: [Tu RUT]
+  2. [Nombre completo] - RUT: [Tu RUT]
+  3. [Nombre completo] - RUT: [Tu RUT]
+  4. [Nombre completo] - RUT: [Tu RUT]
 
-## Estructura inicial del proyecto
+## Descripción del Proyecto
+InfoMóvil es una aplicación web que centraliza información dinámica de diferentes fuentes, presentándola de manera clara y atractiva. La aplicación es totalmente responsiva y funciona perfectamente en dispositivos móviles, tablets y escritorio.
 
-  - `js/`
-    - `main.js`: Lógica principal de la app, navegación y consumo de APIs.
-    - `api/`: Módulos para cada API externa.
-  - `css/`
-    - `tailwind.css`: Archivo fuente para Tailwind.
-    - `styles.css`: Personalizaciones adicionales.
-  - `assets/`: Imágenes y recursos estáticos.
-# Proyecto InfoMóvil
+## APIs Implementadas
+1. TheMealDB (Recetas)
+   - Muestra recetas populares de mariscos
+   - Permite ver detalles de cada receta
+   - Incluye imágenes, instrucciones y origen
 
-Este repositorio contiene la aplicación web móvil InfoMóvil.
+2. PokeAPI (Pokémon)
+   - Lista Pokémon populares
+   - Muestra detalles como tipo, altura y peso
+   - Incluye imágenes de los Pokémon
 
-## Estructura
-- `frontend/`: Código fuente del frontend (HTML, JS, CSS, assets)
-- `backend/`: Código fuente del backend (Node.js, Express, etc)
+3. OMDB API (Películas)
+   - Permite buscar películas y series
+   - Muestra detalles como año, género y director
+   - Incluye pósters y sinopsis
 
-Ver los README en cada carpeta para más detalles.
-> Los archivos y carpetas se crearán a continuación.
+4. HackerNews API (Noticias)
+   - Muestra las últimas noticias de tecnología
+   - Incluye puntuación y comentarios
+   - Enlaces directos a las fuentes originales
+
+## Características Técnicas
+- Diseño Mobile First usando Tailwind CSS
+- Implementado con JavaScript puro (sin frameworks)
+- Single Page Application (SPA)
+- Manejo de errores y estados de carga
+- Interfaz responsiva y accesible
+- Filtrado y búsqueda dinámica
+- Navegación fluida sin recarga de página
+
+## Estructura del Proyecto
+```
+frontend/
+├── api/              # Módulos de integración con APIs
+│   ├── omdbapi.js    # Integración con OMDB API
+│   ├── pokeapi.js    # Integración con PokeAPI
+│   ├── themealdb.js  # Integración con TheMealDB
+│   └── newsapi.js    # Integración con HackerNews
+├── assets/           # Recursos estáticos
+│   └── img/          # Imágenes
+├── css/             # Estilos
+│   ├── tailwind.css  # Configuración de Tailwind
+│   └── styles.css    # Estilos compilados
+├── js/              # Lógica JavaScript
+│   └── app.js        # Aplicación principal
+└── index.html       # Página principal
+```
+
+## Cómo ejecutar el proyecto
+1. Clonar el repositorio
+2. Navegar al directorio frontend
+3. Instalar dependencias:
+   ```bash
+   npm install
+   ```
+4. Abrir `index.html` con Live Server en VS Code
