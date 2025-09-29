@@ -322,8 +322,8 @@ document.addEventListener('DOMContentLoaded', () => {
 							setResourceBackground('noticias');
 							mainView.innerHTML = `
 								<button onclick="window.renderResource('noticias')" class="btn-back mb-4">← Volver</button>
-								<div class="flex justify-center items-center w-full" style="min-height:70vh;">
-									<iframe src="${url}" class="w-full max-w-4xl h-[80vh] border rounded-xl bg-white" title="Noticia" style="background:white;"></iframe>
+								<div class="w-full">
+									<iframe src="${url}" class="w-full h-[90vh] border rounded-xl bg-white" title="Noticia" style="background:white;"></iframe>
 								</div>
 							`;
 						});
