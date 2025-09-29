@@ -858,3 +858,25 @@ video {
     background: #1e40af;
     border-color: #1e40af;
 }
+
+/* Títulos de cada categoría destacados */
+.category-title {
+    background: #2563eb;
+    color: #fff;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 16px 0 rgba(37,99,235,0.15);
+    letter-spacing: 1px;
+}
+
+.bg-pokemon {
+    background: url('../assets/backgrounds/pokemon.jpg') center/cover no-repeat fixed;
+}
+
+.bg-news {
+    background: url('../assets/backgrounds/noticiasjpg.jpg') center/cover no-repeat fixed;
+}
