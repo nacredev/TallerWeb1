@@ -1,5 +1,5 @@
 // Módulo para consumir TheMealDB
-const MEALDB_BASE = 'https://www.themealdb.com/api/json/v1/1';
+const MEALDB_BASE = 'http://localhost:3001/api';
 
 export async function getMealsByCategory(category = 'Seafood') {
   const res = await fetch(`${MEALDB_BASE}/filter.php?c=${category}`);

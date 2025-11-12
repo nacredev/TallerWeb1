@@ -1,5 +1,5 @@
 // Módulo para consumir PokeAPI
-const POKEAPI_BASE = 'https://pokeapi.co/api/v2';
+const POKEAPI_BASE = 'http://localhost:3002/api';
 
 export async function getPokemons(limit = 12, offset = 0) {
   const res = await fetch(`${POKEAPI_BASE}/pokemon?limit=${limit}&offset=${offset}`);

@@ -2,7 +2,7 @@
 // Docs: http://www.omdbapi.com/
 // You need an API key from http://www.omdbapi.com/apikey.aspx
 
-const OMDB_API_URL = 'https://www.omdbapi.com/';
+const OMDB_API_URL = 'http://localhost:3003/api';
 const OMDB_API_KEY = 'f655a5cd'; // Replace with your OMDb API key
 
 /**
