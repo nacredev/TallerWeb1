@@ -1,38 +1,53 @@
-// Módulo para consumir API de HackerNews
-const HN_API_BASE = 'https://hacker-news.firebaseio.com/v0';
+// Módulo para consumir la API de Noticias propia (FastAPI)
+const NEWS_API_BASE = 'http://localhost:8000';
 
-export async function getTopNews(category = 'technology') {
+// Top noticias (usa endpoint propio /news/top/stories)
+export async function getTopNews(category = 'technology', limit = 10) {
     try {
-        // Obtener los IDs de las últimas historias
-        const response = await fetch(`${HN_API_BASE}/topstories.json`);
-        if (!response.ok) throw new Error('Error al obtener noticias');
-        const storyIds = await response.json();
-        
-        // Obtener los detalles de las primeras 10 historias
-        const stories = await Promise.all(
-            storyIds.slice(0, 10).map(async id => {
-                const storyResponse = await fetch(`${HN_API_BASE}/item/${id}.json`);
-                return storyResponse.json();
-            })
-        );
-        
-        return {
-            articles: stories.map(story => ({
-                title: story.title,
-                description: `Por ${story.by} - ${story.score} puntos - ${story.descendants || 0} comentarios`,
-                urlToImage: 'https://news.ycombinator.com/y18.gif', // Logo de HN como placeholder
-                url: story.url || `https://news.ycombinator.com/item?id=${story.id}`,
-                publishedAt: new Date(story.time * 1000).toISOString(),
-                source: 'Hacker News'
-            }))
-        };
+        const url = `${NEWS_API_BASE}/news/top/stories?limit=${encodeURIComponent(limit)}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('Error al obtener noticias');
+        const data = await res.json();
+
+        // Normalizar por si cambian keys; el backend ya devuelve { articles: [...] }
+        const articles = (data.articles || []).map((a) => ({
+            title: a.title,
+            description: a.description,
+            urlToImage: a.urlToImage || './assets/img/movies-1.jpg',
+            url: a.url,
+            publishedAt: a.publishedAt,
+            source: a.source,
+            author: a.author,
+        }));
+        return { articles };
     } catch (error) {
         console.error('Error fetching news:', error);
         return { articles: [] };
     }
 }
 
-export async function searchNews(query) {
-    // Para simplificar, retornamos las mismas noticias principales
-    return getTopNews();
+// Búsqueda/filtrado simple por categoría usando /news?category=
+export async function searchNews(query, limit = 10, offset = 0) {
+    try {
+        const params = new URLSearchParams();
+        params.set('limit', String(limit));
+        params.set('offset', String(offset));
+        if (query && query.trim()) params.set('category', query.trim());
+        const res = await fetch(`${NEWS_API_BASE}/news?${params.toString()}`);
+        if (!res.ok) throw new Error('Error al buscar noticias');
+        const data = await res.json();
+        const articles = (data.articles || []).map((a) => ({
+            title: a.title,
+            description: a.description,
+            urlToImage: a.urlToImage || './assets/img/movies-1.jpg',
+            url: a.url,
+            publishedAt: a.publishedAt,
+            source: a.source,
+            author: a.author,
+        }));
+        return { articles };
+    } catch (error) {
+        console.error('Error searching news:', error);
+        return { articles: [] };
+    }
 }

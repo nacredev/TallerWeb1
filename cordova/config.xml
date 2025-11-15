@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.infomovil.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+	<name>InfoMovil</name>
+	<description>Aplicación InfoMóvil empaquetada con Cordova</description>
+	<author email="team@example.com" href="https://example.com">Equipo InfoMóvil</author>
+	<content src="index.html" />
+
+	<!-- Permisos de red y navegación -->
+	<access origin="*" />
+	<allow-navigation href="*" />
+	<allow-intent href="http://*/*" />
+	<allow-intent href="https://*/*" />
+
+	<!-- Preferencias Android -->
+	<preference name="SplashScreenDelay" value="0" />
+	<preference name="AndroidInsecureFileModeEnabled" value="true" />
+	<preference name="LoadUrlTimeoutValue" value="60000" />
+	<preference name="ShowSplashScreenSpinner" value="false" />
+	<preference name="Orientation" value="portrait" />
+	<preference name="WKWebViewOnly" value="true" />
+
+	<!-- Íconos/recursos se pueden agregar aquí -->
+
+	<platform name="android">
+		<preference name="AndroidPersistentFileLocation" value="Compatibility" />
+		<allow-intent href="market:*" />
+	</platform>
+</widget>
