@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			setResourceBackground('personajes');
 			mainView.innerHTML += `<h2 class="category-title">Pokémon populares</h2><div id="poke-list" class="grid grid-cols-2 sm:grid-cols-3 gap-6"></div>`;
 			try {
+				mainView.querySelector('#poke-list').innerHTML = '<div class="loading-container"><div class="loader" aria-label="Cargando pokémon"></div></div>';
 				const data = await getPokemons(12, 0);
 				const pokeList = document.getElementById('poke-list');
 				pokeList.innerHTML = data.results.map(p => `
@@ -112,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				});
 			} catch (error) {
 				const pokeList = document.getElementById('poke-list');
-				pokeList.innerHTML = '<div class="text-red-600 text-center">Error al cargar los Pokémon</div>';
+				pokeList.innerHTML = '<div class="error-msg">Error al cargar los Pokémon</div>';
 			}
 		} else if (id === 'peliculas') {
 			// Mostrar películas
@@ -247,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			orderBy.onchange = applyFilters;
 			form.onsubmit = async (e) => {
 				e.preventDefault();
-				resultsDiv.innerHTML = '<div class="text-gray-400">Buscando...</div>';
+				resultsDiv.innerHTML = '<div class="loading-container"><div class="loader" aria-label="Buscando películas"></div></div>';
 				const data = await searchMovies(input.value);
 				if (data.Response === 'True' && data.Search) {
 					lastResults = await Promise.all(data.Search.map(async m => {
@@ -256,12 +257,13 @@ document.addEventListener('DOMContentLoaded', () => {
 					}));
 					renderMovies(lastResults);
 				} else {
-					resultsDiv.innerHTML = `<div class='text-red-600'>No se encontraron resultados.</div>`;
+					resultsDiv.innerHTML = `<div class='error-msg'>No se encontraron resultados.</div>`;
 				}
 			};
 		} else if (id === 'recetas') {
 			mainView.innerHTML += `<h2 class="category-title">Recetas populares</h2><div id="recetas-list" class="grid grid-cols-1 sm:grid-cols-2 gap-6"></div>`;
 			try {
+				mainView.querySelector('#recetas-list').innerHTML = '<div class="loading-container"><div class="loader" aria-label="Cargando recetas"></div></div>';
 				const data = await getMealsByCategory('Seafood');
 				const recetasList = document.getElementById('recetas-list');
 				if (data.meals && data.meals.length > 0) {
@@ -295,15 +297,16 @@ document.addEventListener('DOMContentLoaded', () => {
 						});
 					});
 				} else {
-					recetasList.innerHTML = '<div class="text-red-600 text-center">No se encontraron recetas.</div>';
+					recetasList.innerHTML = '<div class="error-msg">No se encontraron recetas.</div>';
 				}
 			} catch (error) {
 				const recetasList = document.getElementById('recetas-list');
-				recetasList.innerHTML = '<div class="text-red-600 text-center">Error al cargar las recetas.</div>';
+				recetasList.innerHTML = '<div class="error-msg">Error al cargar las recetas.</div>';
 			}
 		} else if (id === 'noticias') {
 			mainView.innerHTML += `<h2 class="category-title">Noticias de tecnología</h2><div id="noticias-list" class="grid grid-cols-1 sm:grid-cols-2 gap-6"></div>`;
 			try {
+				mainView.querySelector('#noticias-list').innerHTML = '<div class="loading-container"><div class="loader" aria-label="Cargando noticias"></div></div>';
 				const data = await getTopNews('technology');
 				const noticiasList = document.getElementById('noticias-list');
 				if (data.articles && data.articles.length > 0) {
@@ -329,11 +332,11 @@ document.addEventListener('DOMContentLoaded', () => {
 						});
 					});
 				} else {
-					noticiasList.innerHTML = '<div class="text-red-600 text-center">No se encontraron noticias.</div>';
+					noticiasList.innerHTML = '<div class="error-msg">No se encontraron noticias.</div>';
 				}
 			} catch (error) {
 				const noticiasList = document.getElementById('noticias-list');
-				noticiasList.innerHTML = '<div class="text-red-600 text-center">Error al cargar las noticias.</div>';
+				noticiasList.innerHTML = '<div class="error-msg">Error al cargar las noticias.</div>';
 			}
 		}
 	}
