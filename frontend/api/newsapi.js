@@ -1,7 +1,8 @@
 // Módulo para consumir FastAPI (SQLite) - Noticias
 const NEWS_API_BASE = 'http://localhost:8000';
 
-export async function getTopNews(category = 'technology') {
+// Top noticias (usa endpoint propio /news/top/stories)
+export async function getTopNews(category = 'technology', limit = 10) {
     try {
         const response = await fetch(`${NEWS_API_BASE}/news/top/stories?limit=10`);
         if (!response.ok) throw new Error('Error al obtener noticias');

@@ -57,6 +57,39 @@ La API estará disponible en `http://localhost:8000`
 - `GET /news/top/stories?limit=10` - Obtener las noticias más populares
 - `POST /news` - Crear una nueva noticia (para testing)
 
+### Root
+- `GET /` - Información básica de estado y links a documentación.
+
+### Ejemplos rápidos (curl)
+```bash
+# Lista paginada (5 primeras)
+curl "http://localhost:8000/news?limit=5"
+
+# Filtrar por categoría science
+curl "http://localhost:8000/news?category=science&limit=3"
+
+# Top stories (orden score DESC)
+curl "http://localhost:8000/news/top/stories?limit=3"
+
+# Detalle por ID
+curl "http://localhost:8000/news/1"
+
+# Crear noticia (testing)
+curl -X POST http://localhost:8000/news \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title":"Nueva API",
+    "description":"Descripción corta",
+    "url":"https://example.com/nueva",
+    "urlToImage":null,
+    "publishedAt":"2025-11-15T10:00:00Z",
+    "source":"Manual",
+    "author":"Equipo",
+    "score":42,
+    "comments":0
+  }'
+```
+
 ### Parámetros de consulta
 - **limit**: Número de noticias a retornar (default: 10, max: 100)
 - **offset**: Offset para paginación (default: 0)
@@ -102,6 +135,19 @@ fastapi-api/
   "totalResults": 1
 }
 ```
+
+## Formato de errores
+FastAPI devuelve por defecto:
+```json
+{ "detail": "Error message" }
+```
+Se puede ampliar a un formato uniforme (`{"error":"mensaje","code":404}`) adaptando los `HTTPException` en el código.
+
+## Integración Frontend
+El frontend consume:
+- Lista: `/news?limit=...`
+- Top stories: `/news/top/stories?limit=...`
+Y normaliza las claves para mostrar título, descripción e imagen.
 
 ## Migrar a PostgreSQL
 
