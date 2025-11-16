@@ -1,5 +1,5 @@
 // Módulo para consumir NestJS API (PostgreSQL) - Películas
-const MOVIES_API_BASE = 'http://localhost:3001';
+const MOVIES_API_BASE = 'http://192.168.100.26:3001';
 
 /**
  * Fetch movie data by title

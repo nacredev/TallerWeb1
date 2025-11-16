@@ -1,5 +1,5 @@
 // Módulo para consumir Express API (MongoDB) - Pokémon
-const POKEMON_API_BASE = 'http://localhost:3002';
+const POKEMON_API_BASE = 'http://192.168.100.26:3002';
 
 export async function getPokemons(limit = 12, offset = 0) {
   const res = await fetch(`${POKEMON_API_BASE}/pokemon?limit=${limit}&offset=${offset}`);

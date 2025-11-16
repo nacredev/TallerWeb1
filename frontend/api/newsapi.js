@@ -1,5 +1,5 @@
 // Módulo para consumir FastAPI (SQLite) - Noticias
-const NEWS_API_BASE = 'http://localhost:8000';
+const NEWS_API_BASE = 'http://192.168.100.26:8000';
 
 // Top noticias (usa endpoint propio /news/top/stories)
 export async function getTopNews(category = 'technology', limit = 10) {

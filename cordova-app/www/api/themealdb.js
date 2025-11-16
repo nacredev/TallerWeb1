@@ -1,5 +1,5 @@
 // Módulo para consumir NestJS API (PostgreSQL) - Recetas
-const MEALS_API_BASE = 'http://localhost:3001';
+const MEALS_API_BASE = 'http://192.168.100.26:3001';
 
 export async function getMealsByCategory(category = 'Seafood') {
   const res = await fetch(`${MEALS_API_BASE}/meals/filter?c=${category}`);
