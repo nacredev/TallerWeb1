@@ -1,0 +1,13 @@
+{
+  "name": "infomovil-frontend",
+  "version": "1.0.0",
+  "description": "Frontend de InfoMóvil con Tailwind CSS",
+  "scripts": {
+    "build:css": "npx tailwindcss -i ./css/tailwind.css -o ./css/styles.css --minify --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.0",
+    "postcss": "^8.4.0",
+    "autoprefixer": "^10.4.0"
+  }
+}
